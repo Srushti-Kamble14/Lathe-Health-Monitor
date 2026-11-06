@@ -1,6 +1,31 @@
 # ML service
 
-The Python/FastAPI ML service will be implemented separately in a later phase. No API service or production model is included here.
+The offline analysis scripts and Phase 3/Phase 4 artifacts are accompanied by a Python/FastAPI inference service. The service loads the Phase 4 Isolation Forest once during startup and scores requests without retraining. The dataset has no verified health/fault labels, so the output is exploratory anomaly detection and is not a confirmed fault diagnosis.
+
+## Offline anomaly inference
+
+Phase 4's persisted scores/metadata did not include a serialized estimator. To generate the serving artifact using the same fixed IsolationForest configuration and TRAIN data, run once from this directory:
+
+```powershell
+python -m pip install -r requirements.txt
+python export_inference_model.py
+```
+
+The exporter verifies exact score parity with the existing Phase 4 IsolationForest scores before writing `artifacts/anomaly_detection/isolation_forest.joblib`. It does not alter the Phase 3 feature dataset or other Phase 4 artifacts. Runtime inference fails startup if the model, metadata, thresholds, or feature order are invalid; there is no fallback training.
+
+Start the API from the repository root:
+
+```powershell
+python -m uvicorn service.main:app --app-dir ml-service --host 127.0.0.1 --port 8000
+```
+
+Endpoints:
+
+- `GET /health` — process liveness.
+- `GET /ready` — model/artifact readiness.
+- `POST /api/v1/anomaly/score` — score exactly the nine Phase 3 features.
+
+The backend reaches the ML API using `ML_SERVICE_URL` and `ML_SERVICE_TIMEOUT_MS` from `backend/.env`. The backend performs machine/session validation and writes scores to the existing `anomaly_results` table. See [docs/anomaly-inference.md](../docs/anomaly-inference.md) for the request/response contract and the end-to-end smoke test.
 
 ## Dataset audit
 
