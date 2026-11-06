@@ -1,0 +1,9 @@
+{
+  "model_name": "IsolationForest",
+  "model_version": "isolation-forest-v1",
+  "warning_threshold": 0.6200115364925112,
+  "anomaly_threshold": 0.6557568533398052,
+  "threshold_method": "train_only_upper_tail_percentiles",
+  "warning_quantile": 0.95,
+  "anomaly_quantile": 0.99
+}

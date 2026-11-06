@@ -1,0 +1,43 @@
+{
+  "model_name": "IsolationForest",
+  "model_version": "isolation-forest-v1",
+  "training_date": "2026-11-06",
+  "feature_names": [
+    "current_mean",
+    "current_std",
+    "current_imbalance",
+    "voltage_mean",
+    "voltage_imbalance",
+    "vibration_rms",
+    "vibration_magnitude_std",
+    "temperature_delta",
+    "temperature_rate"
+  ],
+  "training_sessions": [
+    "06cb38d0-9ec5-4ae3-b51b-b27b1363cf2b",
+    "6545563d-3c6d-488e-b566-f7f572af0a64",
+    "780fc743-2049-492f-a939-f1096faec6ac"
+  ],
+  "validation_sessions": [
+    "01697e8d-16b7-4a3c-9623-fd59b02c62ac"
+  ],
+  "test_sessions": [
+    "4e0f9da8-1bb7-47eb-b7d6-3a67c3a21926",
+    "6eda8b68-6ae8-469c-89b7-f786da110934"
+  ],
+  "training_window_count": 1681,
+  "validation_window_count": 570,
+  "test_window_count": 1111,
+  "scaler": "not used",
+  "threshold_method": "train-score 95th/99th percentile",
+  "warning_threshold": 0.6200115364925112,
+  "anomaly_threshold": 0.6557568533398052,
+  "random_state": 42,
+  "software_library_versions": {
+    "python": "3.12",
+    "pandas": "3.0.3",
+    "numpy": "2.4.6",
+    "scikit-learn": "1.9.0",
+    "matplotlib": "3.11.2"
+  }
+}
