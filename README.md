@@ -1,14 +1,14 @@
 # AI-Based IoT Lathe Machine Health Monitoring and Predictive Maintenance System
 
-This project establishes a React frontend and Express API for a lathe machine health monitoring system, with Neon PostgreSQL connectivity, reviewed dataset analysis, schema migrations, idempotent ingestion, and a database-backed feature engineering pipeline. The API remains read-only for machine/readings/sessions; dashboard, device ingestion, alerts, and production ML are not included.
+This project includes a React frontend, Express API, Neon PostgreSQL persistence, reviewed dataset analysis, database-backed feature engineering, and an offline-trained exploratory anomaly detector exposed through FastAPI. It does not include a dashboard, device ingestion, alerts, or supervised fault classification.
 
 ## Technology stack
 
 - Frontend: React, Vite, JavaScript, React Router DOM, and CSS
 - Backend: Node.js, Express, CommonJS, Helmet, CORS, dotenv, and `pg`
 - Database: Neon PostgreSQL
-- Data analysis and ingestion: Python, pandas, psycopg2, and scikit-learn (exploratory analysis only; no production model)
-- Future ML service: Python and FastAPI
+- Data analysis and ingestion: Python, pandas, psycopg2, and scikit-learn
+- ML inference: Python, FastAPI, and the persisted Phase 4 Isolation Forest
 
 ## Folder structure
 
@@ -26,6 +26,7 @@ lathe-health-monitor/
 │   ├── package.json
 │   └── README.md
 ├── docs/
+│   ├── anomaly-inference.md
 │   └── architecture.md
 ├── frontend/
 │   ├── src/
@@ -38,8 +39,10 @@ lathe-health-monitor/
 │   └── README.md
 ├── ml-service/
 │   ├── data/ (local-only, Git-ignored source CSV)
-│   ├── artifacts/features/ (generated ML-ready dataset and diagnostics)
-│   ├── reports/ (audit, target strategy, and feature engineering)
+│   ├── artifacts/features/ (ML-ready dataset and diagnostics)
+│   ├── artifacts/anomaly_detection/ (scores, thresholds, metadata, serving model)
+│   ├── service/ (FastAPI inference application)
+│   ├── reports/ (audit, feature engineering, and anomaly evaluation)
 │   ├── data_audit.py
 │   ├── feature_config.py
 │   ├── feature_engineering.py
@@ -70,6 +73,8 @@ npm install
 
 Copy `backend/.env.example` to `backend/.env` and set `DATABASE_URL` to the connection string from Neon. Do not commit `.env` or share its contents. The application requires a valid database connection at startup and performs a real `SELECT 1` before accepting traffic.
 
+Set `ML_SERVICE_URL=http://localhost:8000` and `ML_SERVICE_TIMEOUT_MS=5000` in `backend/.env` for anomaly scoring.
+
 Copy `frontend/.env.example` to `frontend/.env` if you need to change the API URL. Its default points to `http://localhost:3000/api/v1`.
 
 ## Run the backend
@@ -87,7 +92,7 @@ npm run migrate
 npm run dev
 ```
 
-The backend listens on port `3000` by default, after verifying the configured database connection.
+The backend listens on port `3000` by default, after verifying the configured database connection. For Phase 5 inference startup, model export, and the API contract, see [docs/anomaly-inference.md](./docs/anomaly-inference.md).
 
 ## Ingest the supplied dataset
 
@@ -108,7 +113,7 @@ After ingestion, run the database-backed Phase 3 feature pipeline from `ml-servi
 python feature_engineering.py
 ```
 
-It compares 30/60/120/300-second windows, prevents windows crossing recording sessions or detected gaps, and writes selected features with chronological session-level splits to `ml-service/artifacts/features/ml_ready_features.csv`. Details and figures are generated under `ml-service/reports/`. This prepares data only; it does not train an anomaly model or make production health predictions. See [ml-service/README.md](./ml-service/README.md).
+It compares 30/60/120/300-second windows, prevents windows crossing recording sessions or detected gaps, and writes selected features with chronological session-level splits to `ml-service/artifacts/features/ml_ready_features.csv`. Details and figures are generated under `ml-service/reports/`. The approved artifact is used by the offline Phase 4 anomaly detector. See [ml-service/README.md](./ml-service/README.md).
 
 ## Run the frontend
 
