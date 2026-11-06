@@ -25,6 +25,18 @@ python ml_target_analysis.py
 
 Scores are unlabeled candidate anomalies, not fault predictions; no production threshold or health label is selected.
 
+## Phase 3 feature preparation
+
+`feature_engineering.py` reads approved sensor columns from PostgreSQL, joins each reading to its persisted recording session, validates timestamps and sensor values, compares time-window candidates, engineers statistical features, and writes a session-isolated chronological train/validation/test dataset. It does not read or modify the source CSV and does not train a model.
+
+Configure `DATABASE_URL` in the process environment or `backend/.env`, then run:
+
+```powershell
+python feature_engineering.py
+```
+
+Generated ML data and diagnostics are written to `artifacts/features/`; the report is `reports/feature_engineering_report.md`, and figures are in `reports/figures/feature_analysis/`. The report records current database counts and session boundaries, window selection evidence, feature quality/correlation, selected inputs, split assignments, and validation results. Re-running overwrites these generated outputs deterministically.
+
 ## Dataset ingestion
 
 After applying the backend migrations, install the Python requirements and run:

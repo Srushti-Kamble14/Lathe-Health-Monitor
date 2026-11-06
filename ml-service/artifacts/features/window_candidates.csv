@@ -1,0 +1,5 @@
+window_seconds,expected_samples_per_window,minimum_valid_samples,window_count,usable_records,usable_data_pct,temporal_coverage_pct,median_samples_per_window,p10_samples_per_window,p90_samples_per_window,median_within_window_std_current,median_within_window_std_voltage,median_within_window_std_vibration_magnitude,median_within_window_std_tool_temperature,median_half_window_change_current,median_half_window_change_voltage,median_half_window_change_vibration_rms,median_half_window_change_tool_temperature
+30,10,8,6724,67240,99.97323738,99.97323738,10,10,10,0.01181336343,0.06790516255,56.1912479,0.01486606875,0.006666666667,0.032,27.46392493,0.024
+60,20,16,3362,67240,99.97323738,99.97323738,20,20,20,0.01361779881,0.07070183873,58.30802647,0.04116734142,0.008333333333,0.02266666667,17.12737646,0.059
+120,40,32,1680,67200,99.91376491,99.91376491,40,40,40,0.06592077526,0.07206242461,61.41292607,0.1263894287,0.031,0.01516666667,13.81153284,0.11375
+300,100,80,672,67166,99.8632133,99.8632133,100,100,100,0.06987843412,0.07301244184,59.65150707,0.213513388,0.01733333333,0.0099,9.475458475,0.2313

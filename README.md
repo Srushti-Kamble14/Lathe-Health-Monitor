@@ -1,6 +1,6 @@
 # AI-Based IoT Lathe Machine Health Monitoring and Predictive Maintenance System
 
-This project establishes a React frontend and Express API for a lathe machine health monitoring system, with Neon PostgreSQL connectivity, reviewed dataset analysis, schema migrations, and idempotent ingestion of the supplied college lathe dataset. The API remains read-only for machine/readings/sessions; dashboard, device ingestion, alerts, and production ML are not included.
+This project establishes a React frontend and Express API for a lathe machine health monitoring system, with Neon PostgreSQL connectivity, reviewed dataset analysis, schema migrations, idempotent ingestion, and a database-backed feature engineering pipeline. The API remains read-only for machine/readings/sessions; dashboard, device ingestion, alerts, and production ML are not included.
 
 ## Technology stack
 
@@ -38,8 +38,11 @@ lathe-health-monitor/
 │   └── README.md
 ├── ml-service/
 │   ├── data/ (local-only, Git-ignored source CSV)
-│   ├── reports/
+│   ├── artifacts/features/ (generated ML-ready dataset and diagnostics)
+│   ├── reports/ (audit, target strategy, and feature engineering)
 │   ├── data_audit.py
+│   ├── feature_config.py
+│   ├── feature_engineering.py
 │   ├── ingest_dataset.py
 │   ├── ml_target_analysis.py
 │   └── README.md
@@ -96,6 +99,16 @@ python ingest_dataset.py
 ```
 
 The script reads `DATABASE_URL` from the process environment or `backend/.env`. It reads only the approved sensor columns, maps date/time to UTC-interpreted PostgreSQL timestamps, checks duplicates and missing values, and verifies database counts/statistics. See [docs/database.md](./docs/database.md) and [docs/data-ingestion.md](./docs/data-ingestion.md).
+
+## Prepare ML-ready features
+
+After ingestion, run the database-backed Phase 3 feature pipeline from `ml-service/`:
+
+```powershell
+python feature_engineering.py
+```
+
+It compares 30/60/120/300-second windows, prevents windows crossing recording sessions or detected gaps, and writes selected features with chronological session-level splits to `ml-service/artifacts/features/ml_ready_features.csv`. Details and figures are generated under `ml-service/reports/`. This prepares data only; it does not train an anomaly model or make production health predictions. See [ml-service/README.md](./ml-service/README.md).
 
 ## Run the frontend
 

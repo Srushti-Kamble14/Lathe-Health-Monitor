@@ -1,0 +1,89 @@
+{
+  "artifacts": {
+    "feature_correlations": "artifacts\\features\\feature_correlations.csv",
+    "feature_quality": "artifacts\\features\\feature_quality.csv",
+    "figures": [
+      "reports\\figures\\feature_analysis\\selected_feature_distributions.png",
+      "reports\\figures\\feature_analysis\\selected_feature_correlation.png",
+      "reports\\figures\\feature_analysis\\selected_feature_variance.png",
+      "reports\\figures\\feature_analysis\\sensor_features_over_time.png",
+      "reports\\figures\\feature_analysis\\window_completeness.png",
+      "reports\\figures\\feature_analysis\\chronological_split.png",
+      "reports\\figures\\feature_analysis\\candidate_window_coverage.png"
+    ],
+    "ml_ready_dataset": "artifacts\\features\\ml_ready_features.csv",
+    "session_splits": "artifacts\\features\\session_splits.csv",
+    "window_candidates": "artifacts\\features\\window_candidates.csv"
+  },
+  "candidate_feature_count": 60,
+  "database_rows_processed": 67258,
+  "machine_code": "LATHE-001",
+  "report": "reports\\feature_engineering_report.md",
+  "selected_ml_features": [
+    "current_mean",
+    "current_std",
+    "current_imbalance",
+    "voltage_mean",
+    "voltage_imbalance",
+    "vibration_rms",
+    "vibration_magnitude_std",
+    "temperature_delta",
+    "temperature_rate"
+  ],
+  "selected_window_seconds": 60,
+  "sessions_processed": 6,
+  "split_counts": {
+    "test": 1111,
+    "train": 1681,
+    "validation": 570
+  },
+  "validation": {
+    "candidate_feature_count": 60,
+    "chronological_order": true,
+    "database_connection": true,
+    "duplicate_timestamps": true,
+    "generated_window_count": 3362,
+    "no_cross_gap_windows": true,
+    "no_cross_session_windows": true,
+    "no_identifiers_in_model_inputs": true,
+    "no_missing_or_nonfinite_sensor_inputs": true,
+    "no_scaler_fit": true,
+    "required_sensor_columns_present": true,
+    "selected_feature_count": 9,
+    "selected_features_finite": true,
+    "selected_features_nonconstant": true,
+    "session_isolation": true,
+    "split_bounds": {
+      "test": {
+        "count": 1111,
+        "first_window": "2020-02-27T09:04:10+00:00",
+        "last_window": "2020-02-28T18:15:12+00:00",
+        "sessions": [
+          5,
+          6
+        ]
+      },
+      "train": {
+        "count": 1681,
+        "first_window": "2020-02-22T09:03:01+00:00",
+        "last_window": "2020-02-25T18:15:12+00:00",
+        "sessions": [
+          1,
+          2,
+          3
+        ]
+      },
+      "validation": {
+        "count": 570,
+        "first_window": "2020-02-26T09:03:01+00:00",
+        "last_window": "2020-02-26T18:32:58+00:00",
+        "sessions": [
+          4
+        ]
+      }
+    },
+    "timestamp_ordering": true,
+    "timestamp_parse": true
+  },
+  "windows_generated": 3362
+}
