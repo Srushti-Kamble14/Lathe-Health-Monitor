@@ -24,3 +24,14 @@ python ml_target_analysis.py
 ```
 
 Scores are unlabeled candidate anomalies, not fault predictions; no production threshold or health label is selected.
+
+## Dataset ingestion
+
+After applying the backend migrations, install the Python requirements and run:
+
+```powershell
+python -m pip install -r requirements.txt
+python ingest_dataset.py
+```
+
+The script reads only approved source columns, validates timestamps/sensor completeness/uniqueness, upserts in batches, and writes a database validation summary to `reports/ingestion_validation.json`. It reads `DATABASE_URL` from the process environment or `backend/.env`. The original CSV remains local and Git-ignored.

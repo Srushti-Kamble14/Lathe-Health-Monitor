@@ -3,6 +3,9 @@ const cors = require('cors');
 const helmet = require('helmet');
 const { getEnvironment } = require('./config/environment');
 const healthRoutes = require('./routes/healthRoutes');
+const machineRoutes = require('./routes/machineRoutes');
+const readingRoutes = require('./routes/readingRoutes');
+const sessionRoutes = require('./routes/sessionRoutes');
 const notFound = require('./middleware/notFound');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -23,6 +26,9 @@ app.use(
 );
 app.use(express.json());
 app.use('/api/v1/health', healthRoutes);
+app.use('/api/v1/machines', machineRoutes);
+app.use('/api/v1/readings', readingRoutes);
+app.use('/api/v1/sessions', sessionRoutes);
 app.use(notFound);
 app.use(errorHandler);
 

@@ -1,13 +1,14 @@
 # AI-Based IoT Lathe Machine Health Monitoring and Predictive Maintenance System
 
-Phase 1 establishes the frontend and backend foundations for a lathe machine health monitoring system. It includes a React landing page, an Express API, a Neon PostgreSQL connection check, and architecture documentation. Machine dashboards, sensor ingestion, application tables, and machine-health analytics are not part of this phase.
+This project establishes a React frontend and Express API for a lathe machine health monitoring system, with Neon PostgreSQL connectivity, reviewed dataset analysis, schema migrations, and idempotent ingestion of the supplied college lathe dataset. The API remains read-only for machine/readings/sessions; dashboard, device ingestion, alerts, and production ML are not included.
 
 ## Technology stack
 
 - Frontend: React, Vite, JavaScript, React Router DOM, and CSS
 - Backend: Node.js, Express, CommonJS, Helmet, CORS, dotenv, and `pg`
 - Database: Neon PostgreSQL
-- Future ML service: Python and FastAPI (placeholder documentation only in this phase)
+- Data analysis and ingestion: Python, pandas, psycopg2, and scikit-learn (exploratory analysis only; no production model)
+- Future ML service: Python and FastAPI
 
 ## Folder structure
 
@@ -17,6 +18,7 @@ lathe-health-monitor/
 │   ├── src/
 │   │   ├── config/
 │   │   ├── controllers/
+│   │   ├── db/migrations/
 │   │   ├── middleware/
 │   │   ├── routes/
 │   │   └── services/
@@ -35,6 +37,11 @@ lathe-health-monitor/
 │   ├── package.json
 │   └── README.md
 ├── ml-service/
+│   ├── data/ (local-only, Git-ignored source CSV)
+│   ├── reports/
+│   ├── data_audit.py
+│   ├── ingest_dataset.py
+│   ├── ml_target_analysis.py
 │   └── README.md
 ├── .env.example
 └── .gitignore
@@ -70,7 +77,25 @@ From `backend/`:
 npm run dev
 ```
 
-For production mode, run `npm start`. The backend listens on port `3000` by default, after verifying the configured database connection.
+For production mode, run `npm start`. Before starting the backend, apply schema migrations from `backend/`:
+
+```powershell
+npm run migrate
+npm run dev
+```
+
+The backend listens on port `3000` by default, after verifying the configured database connection.
+
+## Ingest the supplied dataset
+
+Install the Python requirements and run the idempotent bulk loader from `ml-service/`:
+
+```powershell
+python -m pip install -r requirements.txt
+python ingest_dataset.py
+```
+
+The script reads `DATABASE_URL` from the process environment or `backend/.env`. It reads only the approved sensor columns, maps date/time to UTC-interpreted PostgreSQL timestamps, checks duplicates and missing values, and verifies database counts/statistics. See [docs/database.md](./docs/database.md) and [docs/data-ingestion.md](./docs/data-ingestion.md).
 
 ## Run the frontend
 
@@ -92,3 +117,5 @@ Invoke-RestMethod http://localhost:3000/api/v1/health/db
 ```
 
 The database health endpoint reports success only after PostgreSQL responds to `SELECT 1`. Unknown API routes return a JSON 404 response.
+
+Machine/readings/sessions APIs return versioned JSON responses. Reading queries support `machineId`, `start`, `end`, `limit`, and `offset`; page size is bounded. RPM is excluded from storage and API responses.

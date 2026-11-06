@@ -1,0 +1,127 @@
+{
+  "csv_row_count": 67258,
+  "database_duplicate_timestamp_count": 0,
+  "database_row_count": 67258,
+  "database_session_count": 6,
+  "earliest_timestamp": "2020-02-22T09:03:01+00:00",
+  "latest_timestamp": "2020-02-28T18:15:21+00:00",
+  "machine_code": "LATHE-001",
+  "missing_values_per_sensor": {
+    "ambient_temperature": 0,
+    "current_l1": 0,
+    "current_l2": 0,
+    "current_l3": 0,
+    "tool_temperature": 0,
+    "vibration_x": 0,
+    "vibration_y": 0,
+    "vibration_z": 0,
+    "voltage_l1": 0,
+    "voltage_l2": 0,
+    "voltage_l3": 0
+  },
+  "row_count_matches": true,
+  "sensor_statistics": {
+    "ambient_temperature": {
+      "maximum": 27.53,
+      "mean": 26.50474233547984,
+      "minimum": 24.95
+    },
+    "current_l1": {
+      "maximum": 5.34,
+      "mean": 0.5376112878766514,
+      "minimum": 0.03
+    },
+    "current_l2": {
+      "maximum": 16.77,
+      "mean": 0.803821404145166,
+      "minimum": 0.0
+    },
+    "current_l3": {
+      "maximum": 5.58,
+      "mean": 0.7906366528887897,
+      "minimum": 0.16
+    },
+    "tool_temperature": {
+      "maximum": 45.94,
+      "mean": 28.017753427100136,
+      "minimum": 26.2
+    },
+    "vibration_x": {
+      "maximum": 2272.0,
+      "mean": 561.2446123881209,
+      "minimum": -1360.0
+    },
+    "vibration_y": {
+      "maximum": 19128.0,
+      "mean": 16062.39119896519,
+      "minimum": 12524.0
+    },
+    "vibration_z": {
+      "maximum": 1484.0,
+      "mean": -1664.6970254839603,
+      "minimum": -4844.0
+    },
+    "voltage_l1": {
+      "maximum": 231.94,
+      "mean": 231.71863480922332,
+      "minimum": 231.5
+    },
+    "voltage_l2": {
+      "maximum": 231.94,
+      "mean": 231.72003003358145,
+      "minimum": 231.5
+    },
+    "voltage_l3": {
+      "maximum": 231.94,
+      "mean": 231.72026584196118,
+      "minimum": 231.5
+    }
+  },
+  "sessions": [
+    {
+      "end_time": "2020-02-22T18:33:13",
+      "median_interval_seconds": 3.0,
+      "sample_count": 11405,
+      "session_number": 1,
+      "start_time": "2020-02-22T09:03:01"
+    },
+    {
+      "end_time": "2020-02-24T18:21:10",
+      "median_interval_seconds": 3.0,
+      "sample_count": 11141,
+      "session_number": 2,
+      "start_time": "2020-02-24T09:04:10"
+    },
+    {
+      "end_time": "2020-02-25T18:15:21",
+      "median_interval_seconds": 3.0,
+      "sample_count": 11083,
+      "session_number": 3,
+      "start_time": "2020-02-25T09:01:15"
+    },
+    {
+      "end_time": "2020-02-26T18:33:13",
+      "median_interval_seconds": 3.0,
+      "sample_count": 11405,
+      "session_number": 4,
+      "start_time": "2020-02-26T09:03:01"
+    },
+    {
+      "end_time": "2020-02-27T18:21:10",
+      "median_interval_seconds": 3.0,
+      "sample_count": 11141,
+      "session_number": 5,
+      "start_time": "2020-02-27T09:04:10"
+    },
+    {
+      "end_time": "2020-02-28T18:15:21",
+      "median_interval_seconds": 3.0,
+      "sample_count": 11083,
+      "session_number": 6,
+      "start_time": "2020-02-28T09:01:15"
+    }
+  ],
+  "source_duplicate_timestamp_rows": 0,
+  "source_session_count": 6,
+  "timestamp_convention": "Source date/time has no timezone. Parsed wall-clock values are interpreted as UTC when inserted into TIMESTAMPTZ; this is a consistent storage convention, not a claim about the source's actual timezone."
+}

@@ -12,6 +12,16 @@ function errorHandler(error, _request, response, _next) {
     });
   }
 
+  if (Number.isInteger(error.statusCode) && error.statusCode >= 400 && error.statusCode < 500) {
+    return response.status(error.statusCode).json({
+      success: false,
+      error: {
+        code: error.code || 'BAD_REQUEST',
+        message: error.message,
+      },
+    });
+  }
+
   console.error('Unhandled request error.');
   return response.status(500).json({
     success: false,
