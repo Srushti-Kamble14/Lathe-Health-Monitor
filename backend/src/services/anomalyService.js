@@ -15,6 +15,9 @@ const FEATURE_NAMES = [
 ];
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const REQUEST_KEYS = ['machine_id', 'session_id', 'timestamp', 'features'];
+const ANOMALY_STATUSES = new Set(['NORMAL', 'WARNING', 'ANOMALOUS']);
+const ANOMALY_COLUMNS = `id, machine_id, reading_id, timestamp, anomaly_score,
+  anomaly_status, model_name, model_version, created_at`;
 
 function invalidRequest(message = 'The anomaly scoring request is invalid.') {
   return new HttpError(400, 'INVALID_ANOMALY_REQUEST', message);
@@ -71,10 +74,97 @@ function validateRequest(body) {
   };
 }
 
+function validateMachineId(value) {
+  if (typeof value !== 'string' || !UUID_PATTERN.test(value)) {
+    throw new HttpError(400, 'INVALID_QUERY_PARAMETER', 'machineId must be a valid UUID.');
+  }
+}
+
+function validateTimestamp(value, fieldName) {
+  if (typeof value !== 'string' || value.length > 64 || Number.isNaN(Date.parse(value))) {
+    throw new HttpError(400, 'INVALID_QUERY_PARAMETER', `${fieldName} must be a valid timestamp.`);
+  }
+  return new Date(value).toISOString();
+}
+
+function parseAnomalyPagination(query) {
+  const limit = query.limit === undefined ? 50 : Number(query.limit);
+  const offset = query.offset === undefined ? 0 : Number(query.offset);
+  if (!Number.isInteger(limit) || limit < 1 || limit > 500) {
+    throw new HttpError(400, 'INVALID_QUERY_PARAMETER', 'limit must be an integer from 1 to 500.');
+  }
+  if (!Number.isInteger(offset) || offset < 0 || offset > 10000000) {
+    throw new HttpError(
+      400,
+      'INVALID_QUERY_PARAMETER',
+      'offset must be a non-negative integer no greater than 10000000.',
+    );
+  }
+  return { limit, offset };
+}
+
 function createAnomalyService({
   query = queryDatabase,
   mlClient = createMlServiceClient(),
 } = {}) {
+  async function listAnomalies(filters) {
+    const { limit, offset } = parseAnomalyPagination(filters);
+    const machineId = filters.machineId;
+    if (machineId !== undefined) {
+      validateMachineId(machineId);
+    }
+
+    const start = filters.start === undefined ? null : validateTimestamp(filters.start, 'start');
+    const end = filters.end === undefined ? null : validateTimestamp(filters.end, 'end');
+    if (start && end && Date.parse(start) > Date.parse(end)) {
+      throw new HttpError(400, 'INVALID_QUERY_PARAMETER', 'start must not be later than end.');
+    }
+
+    const status = filters.status;
+    if (status !== undefined && !ANOMALY_STATUSES.has(status)) {
+      throw new HttpError(
+        400,
+        'INVALID_QUERY_PARAMETER',
+        'status must be NORMAL, WARNING, or ANOMALOUS.',
+      );
+    }
+
+    const parameters = [machineId || null, start, end, status || null];
+    const where = `WHERE ($1::uuid IS NULL OR machine_id = $1::uuid)
+      AND ($2::timestamptz IS NULL OR timestamp >= $2::timestamptz)
+      AND ($3::timestamptz IS NULL OR timestamp <= $3::timestamptz)
+      AND ($4::varchar IS NULL OR anomaly_status = $4::varchar)`;
+    const countResult = await query(
+      `SELECT COUNT(*)::bigint AS total FROM anomaly_results ${where}`,
+      parameters,
+    );
+    const result = await query(
+      `SELECT ${ANOMALY_COLUMNS}
+       FROM anomaly_results
+       ${where}
+       ORDER BY timestamp DESC, id DESC
+       LIMIT $5 OFFSET $6`,
+      [...parameters, limit, offset],
+    );
+    return {
+      data: result.rows,
+      pagination: { limit, offset, total: Number(countResult.rows[0].total) },
+    };
+  }
+
+  async function getLatestAnomaly(machineId) {
+    validateMachineId(machineId);
+    const result = await query(
+      `SELECT ${ANOMALY_COLUMNS}
+       FROM anomaly_results
+       WHERE machine_id = $1
+       ORDER BY timestamp DESC, id DESC
+       LIMIT 1`,
+      [machineId],
+    );
+    return result.rows[0] || null;
+  }
+
   async function scoreAndPersist(body) {
     const request = validateRequest(body);
 
@@ -144,7 +234,7 @@ function createAnomalyService({
     };
   }
 
-  return { scoreAndPersist };
+  return { scoreAndPersist, listAnomalies, getLatestAnomaly };
 }
 
 module.exports = { createAnomalyService, validateRequest };

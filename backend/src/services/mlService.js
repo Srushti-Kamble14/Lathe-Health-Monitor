@@ -45,6 +45,84 @@ function createMlServiceClient({
   timeoutMs = getEnvironment().mlServiceTimeoutMs,
   fetchImpl = globalThis.fetch,
 } = {}) {
+  async function checkReadiness() {
+    if (!baseUrl || typeof fetchImpl !== 'function') {
+      throw new HttpError(
+        503,
+        'ML_SERVICE_UNAVAILABLE',
+        'The anomaly inference service is unavailable.',
+      );
+    }
+
+    let endpoint;
+    try {
+      endpoint = new URL(`${baseUrl.replace(/\/+$/, '')}/ready`);
+      if (!['http:', 'https:'].includes(endpoint.protocol)) {
+        throw new Error('Unsupported protocol.');
+      }
+    } catch (_error) {
+      throw new HttpError(
+        503,
+        'ML_SERVICE_UNAVAILABLE',
+        'The anomaly inference service is unavailable.',
+      );
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const response = await fetchImpl(endpoint, { signal: controller.signal });
+      if (!response.ok) {
+        throw new HttpError(
+          503,
+          'ML_SERVICE_UNAVAILABLE',
+          'The anomaly inference service is unavailable.',
+        );
+      }
+
+      let payload;
+      try {
+        payload = await response.json();
+      } catch (_error) {
+        throw new HttpError(
+          503,
+          'ML_SERVICE_UNAVAILABLE',
+          'The anomaly inference service is unavailable.',
+        );
+      }
+      if (
+        payload?.success !== true
+        || payload.status !== 'ready'
+        || payload.model_loaded !== true
+      ) {
+        throw new HttpError(
+          503,
+          'ML_SERVICE_UNAVAILABLE',
+          'The anomaly inference service is unavailable.',
+        );
+      }
+      return { status: 'ready' };
+    } catch (error) {
+      if (error instanceof HttpError) {
+        throw error;
+      }
+      if (error.name === 'AbortError' || error.name === 'TimeoutError') {
+        throw new HttpError(
+          504,
+          'ML_SERVICE_TIMEOUT',
+          'The anomaly inference service readiness check timed out.',
+        );
+      }
+      throw new HttpError(
+        503,
+        'ML_SERVICE_UNAVAILABLE',
+        'The anomaly inference service is unavailable.',
+      );
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
   async function scoreFeatures(features) {
     if (!baseUrl) {
       throw new HttpError(
@@ -127,7 +205,7 @@ function createMlServiceClient({
     }
   }
 
-  return { scoreFeatures };
+  return { scoreFeatures, checkReadiness };
 }
 
 module.exports = { createMlServiceClient, validateMlResponse };

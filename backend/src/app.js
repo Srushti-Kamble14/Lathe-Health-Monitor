@@ -7,6 +7,7 @@ const machineRoutes = require('./routes/machineRoutes');
 const readingRoutes = require('./routes/readingRoutes');
 const sessionRoutes = require('./routes/sessionRoutes');
 const createAnomalyRoutes = require('./routes/anomalyRoutes');
+const createMlRoutes = require('./routes/mlRoutes');
 const notFound = require('./middleware/notFound');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -33,6 +34,7 @@ function createApp(options = {}) {
   app.use('/api/v1/readings', readingRoutes);
   app.use('/api/v1/sessions', sessionRoutes);
   app.use('/api/v1/anomalies', createAnomalyRoutes(options.anomalyService));
+  app.use('/api/v1/ml', createMlRoutes(options.mlClient));
   app.use(notFound);
   app.use(errorHandler);
   return app;

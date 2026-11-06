@@ -76,6 +76,52 @@ The backend `POST /api/v1/anomalies/score` accepts machine/session/time context 
 
 These are the values of an existing first-row Phase 3 feature window, not fabricated runtime sensor readings. A successful response includes the persisted anomaly result and model metadata. Invalid requests receive a 400 response; unknown machine/session context receives 404; ML service connection/availability failures receive 503, timeouts 504, invalid ML responses 502, and database failures a sanitized 500 response. Secrets, stack traces, and filesystem paths are not returned.
 
+### Persisted anomaly read endpoints
+
+The backend exposes persisted anomaly results for monitoring. These GET endpoints only read `anomaly_results`; they do not call the inference service or recalculate scores.
+
+`GET /api/v1/anomalies` accepts optional query parameters:
+
+| Parameter | Meaning |
+| --- | --- |
+| `machineId` | Filter by machine UUID. |
+| `start` | Inclusive lower timestamp bound. |
+| `end` | Inclusive upper timestamp bound; must not precede `start`. |
+| `status` | One of `NORMAL`, `WARNING`, or `ANOMALOUS`. |
+| `limit` | Page size from 1 to 500; defaults to 50. |
+| `offset` | Non-negative offset up to 10,000,000; defaults to 0. |
+
+Example response:
+
+```json
+{
+  "success": true,
+  "data": [],
+  "pagination": {
+    "limit": 50,
+    "offset": 0,
+    "total": 1
+  }
+}
+```
+
+`GET /api/v1/anomalies/latest?machineId=<uuid>` returns the latest persisted row ordered by its anomaly `timestamp`, or `{ "success": true, "data": null }` when none exists. `machineId` is required and must be a valid UUID.
+
+### ML service readiness
+
+`GET /api/v1/ml/ready` proxies the existing FastAPI `/ready` endpoint. A ready service returns:
+
+```json
+{
+  "success": true,
+  "data": {
+    "status": "ready"
+  }
+}
+```
+
+Unavailable or timed-out ML checks return a non-success HTTP response with a sanitized error code/message. The ML service URL and upstream error details are not included.
+
 For that feature vector, FastAPI returns the verified Phase 4 score:
 
 ```json
