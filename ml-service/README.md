@@ -37,6 +37,14 @@ python feature_engineering.py
 
 Generated ML data and diagnostics are written to `artifacts/features/`; the report is `reports/feature_engineering_report.md`, and figures are in `reports/figures/feature_analysis/`. The report records current database counts and session boundaries, window selection evidence, feature quality/correlation, selected inputs, split assignments, and validation results. Re-running overwrites these generated outputs deterministically.
 
+After the one-time November 2026 working-timestamp translation, verify the unchanged raw data, sensor/feature values, and temporal structure with:
+
+```powershell
+python validate_timestamp_shift.py --validate
+```
+
+The timestamp translation itself is a separate, one-time operation (`python validate_timestamp_shift.py --apply`) and must not be rerun after completion.
+
 ## Dataset ingestion
 
 After applying the backend migrations, install the Python requirements and run:

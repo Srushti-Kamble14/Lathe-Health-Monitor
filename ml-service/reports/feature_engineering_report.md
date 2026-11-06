@@ -30,12 +30,12 @@ Timestamp and sensor range checks are calculated from the database query at each
 
 | session | session_id | start_utc | end_utc | preceding_gap_seconds | duration_seconds | observed_records | database_session_sample_count | median_interval_seconds | maximum_interval_seconds | stored_count_matches |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 780fc743-2049-492f-a939-f1096faec6ac | 2020-02-22T09:03:01+00:00 | 2020-02-22T18:33:13+00:00 |  | 34212.0000 | 11405 | 11405 | 3.0000 | 3.0000 | yes |
-| 2 | 6545563d-3c6d-488e-b566-f7f572af0a64 | 2020-02-24T09:04:10+00:00 | 2020-02-24T18:21:10+00:00 | 138657.0000 | 33420.0000 | 11141 | 11141 | 3.0000 | 3.0000 | yes |
-| 3 | 06cb38d0-9ec5-4ae3-b51b-b27b1363cf2b | 2020-02-25T09:01:15+00:00 | 2020-02-25T18:15:21+00:00 | 52805.0000 | 33246.0000 | 11083 | 11083 | 3.0000 | 3.0000 | yes |
-| 4 | 01697e8d-16b7-4a3c-9623-fd59b02c62ac | 2020-02-26T09:03:01+00:00 | 2020-02-26T18:33:13+00:00 | 53260.0000 | 34212.0000 | 11405 | 11405 | 3.0000 | 3.0000 | yes |
-| 5 | 4e0f9da8-1bb7-47eb-b7d6-3a67c3a21926 | 2020-02-27T09:04:10+00:00 | 2020-02-27T18:21:10+00:00 | 52257.0000 | 33420.0000 | 11141 | 11141 | 3.0000 | 3.0000 | yes |
-| 6 | 6eda8b68-6ae8-469c-89b7-f786da110934 | 2020-02-28T09:01:15+00:00 | 2020-02-28T18:15:21+00:00 | 52805.0000 | 33246.0000 | 11083 | 11083 | 3.0000 | 3.0000 | yes |
+| 1 | 780fc743-2049-492f-a939-f1096faec6ac | 2026-11-01T09:03:01+00:00 | 2026-11-01T18:33:13+00:00 |  | 34212.0000 | 11405 | 11405 | 3.0000 | 3.0000 | yes |
+| 2 | 6545563d-3c6d-488e-b566-f7f572af0a64 | 2026-11-03T09:04:10+00:00 | 2026-11-03T18:21:10+00:00 | 138657.0000 | 33420.0000 | 11141 | 11141 | 3.0000 | 3.0000 | yes |
+| 3 | 06cb38d0-9ec5-4ae3-b51b-b27b1363cf2b | 2026-11-04T09:01:15+00:00 | 2026-11-04T18:15:21+00:00 | 52805.0000 | 33246.0000 | 11083 | 11083 | 3.0000 | 3.0000 | yes |
+| 4 | 01697e8d-16b7-4a3c-9623-fd59b02c62ac | 2026-11-05T09:03:01+00:00 | 2026-11-05T18:33:13+00:00 | 53260.0000 | 34212.0000 | 11405 | 11405 | 3.0000 | 3.0000 | yes |
+| 5 | 4e0f9da8-1bb7-47eb-b7d6-3a67c3a21926 | 2026-11-06T09:04:10+00:00 | 2026-11-06T18:21:10+00:00 | 52257.0000 | 33420.0000 | 11141 | 11141 | 3.0000 | 3.0000 | yes |
+| 6 | 6eda8b68-6ae8-469c-89b7-f786da110934 | 2026-11-07T09:01:15+00:00 | 2026-11-07T18:15:21+00:00 | 52805.0000 | 33246.0000 | 11083 | 11083 | 3.0000 | 3.0000 | yes |
 
 ### Sensor value ranges
 
@@ -232,20 +232,20 @@ Splits are assigned by entire persisted sessions in start-time order, never by r
 
 | session_number | session_id | split | start | end |
 | --- | --- | --- | --- | --- |
-| 1 | 780fc743-2049-492f-a939-f1096faec6ac | train | 2020-02-22T09:03:01+00:00 | 2020-02-22T18:33:13+00:00 |
-| 2 | 6545563d-3c6d-488e-b566-f7f572af0a64 | train | 2020-02-24T09:04:10+00:00 | 2020-02-24T18:21:10+00:00 |
-| 3 | 06cb38d0-9ec5-4ae3-b51b-b27b1363cf2b | train | 2020-02-25T09:01:15+00:00 | 2020-02-25T18:15:21+00:00 |
-| 4 | 01697e8d-16b7-4a3c-9623-fd59b02c62ac | validation | 2020-02-26T09:03:01+00:00 | 2020-02-26T18:33:13+00:00 |
-| 5 | 4e0f9da8-1bb7-47eb-b7d6-3a67c3a21926 | test | 2020-02-27T09:04:10+00:00 | 2020-02-27T18:21:10+00:00 |
-| 6 | 6eda8b68-6ae8-469c-89b7-f786da110934 | test | 2020-02-28T09:01:15+00:00 | 2020-02-28T18:15:21+00:00 |
+| 1 | 780fc743-2049-492f-a939-f1096faec6ac | train | 2026-11-01T09:03:01+00:00 | 2026-11-01T18:33:13+00:00 |
+| 2 | 6545563d-3c6d-488e-b566-f7f572af0a64 | train | 2026-11-03T09:04:10+00:00 | 2026-11-03T18:21:10+00:00 |
+| 3 | 06cb38d0-9ec5-4ae3-b51b-b27b1363cf2b | train | 2026-11-04T09:01:15+00:00 | 2026-11-04T18:15:21+00:00 |
+| 4 | 01697e8d-16b7-4a3c-9623-fd59b02c62ac | validation | 2026-11-05T09:03:01+00:00 | 2026-11-05T18:33:13+00:00 |
+| 5 | 4e0f9da8-1bb7-47eb-b7d6-3a67c3a21926 | test | 2026-11-06T09:04:10+00:00 | 2026-11-06T18:21:10+00:00 |
+| 6 | 6eda8b68-6ae8-469c-89b7-f786da110934 | test | 2026-11-07T09:01:15+00:00 | 2026-11-07T18:15:21+00:00 |
 
 Window counts and temporal bounds:
 
 | split | count | first_window | last_window | sessions |
 | --- | --- | --- | --- | --- |
-| train | 1681 | 2020-02-22T09:03:01+00:00 | 2020-02-25T18:15:12+00:00 | [1, 2, 3] |
-| validation | 570 | 2020-02-26T09:03:01+00:00 | 2020-02-26T18:32:58+00:00 | [4] |
-| test | 1111 | 2020-02-27T09:04:10+00:00 | 2020-02-28T18:15:12+00:00 | [5, 6] |
+| train | 1681 | 2026-11-01T09:03:01+00:00 | 2026-11-04T18:15:12+00:00 | [1, 2, 3] |
+| validation | 570 | 2026-11-05T09:03:01+00:00 | 2026-11-05T18:32:58+00:00 | [4] |
+| test | 1111 | 2026-11-06T09:04:10+00:00 | 2026-11-07T18:15:12+00:00 | [5, 6] |
 
 Whole-session holdouts avoid overlapping recording histories across splits. Validation/test session counts are shown explicitly above; small session counts limit claims about generalization.
 
@@ -273,6 +273,6 @@ No scaling artifact is produced. Tree-based anomaly methods generally do not req
 
 Run from the repository root with `python ml-service/feature_engineering.py`, or from `ml-service` with `python feature_engineering.py`. The script reads only PostgreSQL, uses deterministic window and split rules, and overwrites only generated files in `artifacts/features/`, `reports/feature_engineering_report.md`, and `reports/figures/feature_analysis/`.
 
-**Run validation:** `{"candidate_feature_count": 60, "chronological_order": true, "database_connection": true, "duplicate_timestamps": true, "generated_window_count": 3362, "no_cross_gap_windows": true, "no_cross_session_windows": true, "no_identifiers_in_model_inputs": true, "no_missing_or_nonfinite_sensor_inputs": true, "no_scaler_fit": true, "required_sensor_columns_present": true, "selected_feature_count": 9, "selected_features_finite": true, "selected_features_nonconstant": true, "session_isolation": true, "split_bounds": {"test": {"count": 1111, "first_window": "2020-02-27T09:04:10+00:00", "last_window": "2020-02-28T18:15:12+00:00", "sessions": [5, 6]}, "train": {"count": 1681, "first_window": "2020-02-22T09:03:01+00:00", "last_window": "2020-02-25T18:15:12+00:00", "sessions": [1, 2, 3]}, "validation": {"count": 570, "first_window": "2020-02-26T09:03:01+00:00", "last_window": "2020-02-26T18:32:58+00:00", "sessions": [4]}}, "timestamp_ordering": true, "timestamp_parse": true}`
+**Run validation:** `{"candidate_feature_count": 60, "chronological_order": true, "database_connection": true, "duplicate_timestamps": true, "generated_window_count": 3362, "no_cross_gap_windows": true, "no_cross_session_windows": true, "no_identifiers_in_model_inputs": true, "no_missing_or_nonfinite_sensor_inputs": true, "no_scaler_fit": true, "required_sensor_columns_present": true, "selected_feature_count": 9, "selected_features_finite": true, "selected_features_nonconstant": true, "session_isolation": true, "split_bounds": {"test": {"count": 1111, "first_window": "2026-11-06T09:04:10+00:00", "last_window": "2026-11-07T18:15:12+00:00", "sessions": [5, 6]}, "train": {"count": 1681, "first_window": "2026-11-01T09:03:01+00:00", "last_window": "2026-11-04T18:15:12+00:00", "sessions": [1, 2, 3]}, "validation": {"count": 570, "first_window": "2026-11-05T09:03:01+00:00", "last_window": "2026-11-05T18:32:58+00:00", "sessions": [4]}}, "timestamp_ordering": true, "timestamp_parse": true}`
 
 **Generated artifacts:** `{"feature_correlations": "artifacts\\features\\feature_correlations.csv", "feature_quality": "artifacts\\features\\feature_quality.csv", "figures": ["reports\\figures\\feature_analysis\\selected_feature_distributions.png", "reports\\figures\\feature_analysis\\selected_feature_correlation.png", "reports\\figures\\feature_analysis\\selected_feature_variance.png", "reports\\figures\\feature_analysis\\sensor_features_over_time.png", "reports\\figures\\feature_analysis\\window_completeness.png", "reports\\figures\\feature_analysis\\chronological_split.png", "reports\\figures\\feature_analysis\\candidate_window_coverage.png"], "ml_ready_dataset": "artifacts\\features\\ml_ready_features.csv", "session_splits": "artifacts\\features\\session_splits.csv", "window_candidates": "artifacts\\features\\window_candidates.csv"}`
