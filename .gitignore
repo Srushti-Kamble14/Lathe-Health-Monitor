@@ -1,0 +1,27 @@
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ML datasets
+ml-service/data/*.csv
+
+# Generated ML reports
+ml-service/reports/figures/
