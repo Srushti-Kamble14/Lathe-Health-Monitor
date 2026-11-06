@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ConnectionStatus from '../components/ConnectionStatus.jsx';
 import { getHealth } from '../services/api.js';
 
@@ -39,14 +40,16 @@ export default function LandingPage() {
           System
         </h1>
         <p className="landing__description">
-          A foundation for connecting machine data, backend services, and future
-          predictive maintenance capabilities.
+          Monitor backend-provided sensor measurements and exploratory anomaly
+          results for the connected lathe machine.
         </p>
         <ConnectionStatus status={connection.status} message={connection.message} />
         <p className="landing__note">
-          Monitoring interface foundation · Machine readings are not available
-          in this setup phase.
+          Explore the live monitoring dashboard using data returned by the backend.
         </p>
+        <Link className="landing__dashboard-link" to="/dashboard">
+          Open monitoring dashboard <span aria-hidden="true">→</span>
+        </Link>
       </section>
       <div className="landing__accent" aria-hidden="true" />
     </main>

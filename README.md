@@ -1,6 +1,6 @@
 # AI-Based IoT Lathe Machine Health Monitoring and Predictive Maintenance System
 
-This project includes a React frontend, Express API, Neon PostgreSQL persistence, reviewed dataset analysis, database-backed feature engineering, and an offline-trained exploratory anomaly detector exposed through FastAPI. It does not include a dashboard, device ingestion, alerts, or supervised fault classification.
+This project includes a React monitoring dashboard, Express API, Neon PostgreSQL persistence, reviewed dataset analysis, database-backed feature engineering, and an offline-trained exploratory anomaly detector exposed through FastAPI. It does not include device ingestion, alerts, or supervised fault classification.
 
 ## Technology stack
 
@@ -124,6 +124,8 @@ npm run dev
 ```
 
 Vite prints the local URL when the development server starts. To create and preview a production build, run `npm run build` followed by `npm run preview`.
+
+Open `/dashboard` to view backend-provided machine, sensor, session, and persisted anomaly data. The dashboard reads through the versioned Express API configured by `VITE_API_BASE_URL`; it does not calculate anomaly scores or use simulated sensor values. See [frontend/README.md](./frontend/README.md) for dashboard details.
 
 ## Test health endpoints
 
