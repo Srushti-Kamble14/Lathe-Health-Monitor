@@ -269,6 +269,19 @@ No scaling artifact is produced. Tree-based anomaly methods generally do not req
 - No final production health prediction, anomaly score, health status, alert, or machine-failure claim is made.
 - Source sensor units, calibration, machine state, maintenance history, and known event annotations remain incomplete.
 
+## Sensor Time-Series Visualizations
+
+The following additional figures are generated from the current November 2026 working data. Raw sensor plots use the persisted PostgreSQL measurements; the derived-feature plot uses the existing 60-second ML-ready windows without recalculating or changing feature values.
+
+- `current_vs_time.png` — measured `current_l1`, `current_l2`, and `current_l3` over time.
+- `temperature_vs_time.png` — measured `tool_temperature` and `ambient_temperature` over time.
+- `vibration_vs_time.png` — measured `vibration_x`, `vibration_y`, and `vibration_z` over time.
+- `voltage_vs_time.png` — measured `voltage_l1`, `voltage_l2`, and `voltage_l3` over time.
+- `current_temperature_blocks.png` — current and temperature traces in six separate blocks, one per persisted recording session.
+- `derived_features_over_time.png` — the nine selected ML features (`current_mean`, `current_std`, `current_imbalance`, `voltage_mean`, `voltage_imbalance`, `vibration_rms`, `vibration_magnitude_std`, `temperature_delta`, and `temperature_rate`). Each feature has an independent y-axis to avoid misleading comparisons across units and scales.
+
+Generate these figures without running feature selection or rewriting the ML dataset with `python generate_sensor_visualizations.py` from `ml-service/`. The script validates timestamps and session membership before saving.
+
 ## Reproducible outputs
 
 Run from the repository root with `python ml-service/feature_engineering.py`, or from `ml-service` with `python feature_engineering.py`. The script reads only PostgreSQL, uses deterministic window and split rules, and overwrites only generated files in `artifacts/features/`, `reports/feature_engineering_report.md`, and `reports/figures/feature_analysis/`.

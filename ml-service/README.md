@@ -45,6 +45,14 @@ python validate_timestamp_shift.py --validate
 
 The timestamp translation itself is a separate, one-time operation (`python validate_timestamp_shift.py --apply`) and must not be rerun after completion.
 
+Generate the additional sensor-specific November 2026 time-series figures without rerunning feature selection or changing the ML-ready dataset:
+
+```powershell
+python generate_sensor_visualizations.py
+```
+
+The script reads raw sensor measurements from PostgreSQL and the selected feature values from the existing ML-ready feature artifact. It validates the shifted timestamp range and persisted session boundaries before saving plots.
+
 ## Dataset ingestion
 
 After applying the backend migrations, install the Python requirements and run:
