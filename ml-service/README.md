@@ -1,6 +1,6 @@
 # ML service
 
-The Python/FastAPI ML service will be implemented separately in a later phase. No service code or model is included here.
+The Python/FastAPI ML service will be implemented separately in a later phase. No API service or production model is included here.
 
 ## Dataset audit
 
@@ -14,3 +14,13 @@ python data_audit.py
 ```
 
 The original CSV is excluded from Git. The audit must be run where that supplied file is available. It does not create labels, train a model, or implement an API/database schema.
+
+## ML target strategy
+
+`ml_target_analysis.py` performs session-aware descriptive regime analysis, feature derivation, a prior-window robust-z screen, and a preliminary Isolation Forest fit on earlier sessions with later sessions held out. It writes `reports/ml_target_strategy.md` and plots to `reports/figures/target_analysis/`.
+
+```powershell
+python ml_target_analysis.py
+```
+
+Scores are unlabeled candidate anomalies, not fault predictions; no production threshold or health label is selected.
